@@ -6,7 +6,7 @@ import "./CSS/Layout.css";
 
 const Layout = () => {
   return (
-    <div id="layout">
+    <div id="layout" >
       <Navbar />
       <Outlet />
       <Footer />

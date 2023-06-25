@@ -39,7 +39,7 @@ const SignIn = () => {
   }, [pwd]);
 
   const accessToken = localStorage.getItem("access");
-
+  console.log(accessToken)
   if (accessToken) {
     return <Navigate to='/' />
     
