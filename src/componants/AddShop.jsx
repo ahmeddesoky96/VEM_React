@@ -7,10 +7,13 @@ import React, { useState, useEffect
 // import Dropzone from 'react-dropzone';
  import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
+
 // import { useNavigate } from "react-router-dom";
 // import { Link } from "react-router-dom";
 const AddShop  = () => {
 // ===========================================================
+
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [templates,setTemplates] = useState(null);
@@ -18,7 +21,10 @@ const AddShop  = () => {
   const [categories, setCategories] = useState([]);
   const [template, setTemplate] = useState("");
   const [category, setcategory] = useState("");
-
+  const accessToken = localStorage.getItem("access");
+  const decodedToken = jwtDecode(accessToken);
+  console.log(decodedToken.user_id);
+  const ID=decodedToken.user_id;
   // const inputRef = useRef(null);
 // -==================================================================================================
   
@@ -36,7 +42,7 @@ const AddShop  = () => {
   event.preventDefault();
   const Addshop = {
     title,
-    owner: "1",
+    owner:ID  ,
     details,
     template,
     category
@@ -60,13 +66,10 @@ const AddShop  = () => {
 // ============================================================================================================================
   useEffect(() => {
   const accessToken = localStorage.getItem("access");
-  axios.get('http://127.0.0.1:8000/shop/1/', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
+  axios.get(`http://127.0.0.1:8000/shop/${ID}/`)
   .then(response => {
     setCategories(response.data.categories);
+    console.log(response.data)
     setTemplates(response.data.templates);
   })
   .catch(error => {

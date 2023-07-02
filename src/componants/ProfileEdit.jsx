@@ -47,29 +47,38 @@ const Profile  = () => {
 // ============================================================================================================
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const updatedUser = {
-      first_name:first_name,
-      last_name:last_name
-      ,email:email
-      ,phone:phone
-      ,birth_date:birth_date
-      ,location:location,
+    const formData = new FormData();
+    formData.append('first_name', first_name);
+    formData.append('last_name', last_name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('birth_date', birth_date);
+    formData.append('location', location);
+    formData.append('profile_picture', ProfilePicture);
+    
+    // const updatedUser = {
+    //   first_name:first_name,
+    //   last_name:last_name
+    //   ,email:email
+    //   ,phone:phone
+    //   ,birth_date:birth_date
+    //   ,location:location,
       
-    };
-    console.log(updatedUser);
+    // };
     try {
       const accessToken = localStorage.getItem("access");
-      const response = await axios.put('http://localhost:8000/profile/edit',updatedUser,{
+      const response = await axios.put('http://localhost:8000/profile/edit',formData,{
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${accessToken}`,
          } });
          
         } catch (error) {
           console.error(error);
-          console.log(JSON.stringify(updatedUser));
+          console.log(formData);
         }
       };
+      
 // ==================================================================================================================
   return (
   <>
@@ -87,7 +96,7 @@ const Profile  = () => {
                     {/* <span>UI/UX Designer</span> */}
                     {user ? (
                     // <>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} enctype='multipart/form-data'>
                       <div className="d-flex justify-content-between ">
                       <div className="txt_fieldedit  " >
                         <input type="text"   value={first_name} onChange={(e) => setfirst_name(e.target.value)}   />
@@ -121,14 +130,20 @@ const Profile  = () => {
                         <label>Location</label>
                       </div>
                       {/* <input type="file" name="photo" onChange={handleFileChange} style={{ display: "none" }} /> */}
-                    {/* <img 
+                      <input
+                      id="file-upload"
+                      type="file"
+                      required
+                      onChange={e => setProfilePicture(e.target.files[0])} 
+                      accept="image/*"
+                    />
+                     <img 
                       src={require("../assets/photo edit.png")} 
                       width={"54px"} 
                       alt="edit profile"
-                      ref={inputRef}
                       onClick={handlePhotoClick}  
                       className="btn btn-light edit" 
-                       /> */}
+                       /> 
                     <div className="container">
                     <div className="row">
                     <div className="col"><input className="btn-success" type="submit" value="Save"  /></div>

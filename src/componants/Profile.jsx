@@ -3,7 +3,7 @@ import "./CSS/Profile.css";
 import { Container,Card } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
 const accessToken = localStorage.getItem("access");
 const decodedToken = jwtDecode(accessToken);
@@ -14,6 +14,7 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [shopInfo, setShopInfo] = useState([]);
   // const [rent,setRent] = useState("");
+  const navigate=useNavigate()
 
   useEffect(() => {
   axios.get('http://127.0.0.1:8000/profile/',{
@@ -25,8 +26,8 @@ const Profile = () => {
     )
     
     .catch(error => console.log(error));
-}, []);
-  useEffect(() => {
+
+
     axios.get('http://localhost:8000/shop/myshop',{
       headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -37,21 +38,30 @@ const Profile = () => {
       )
       
       
-      .catch(error => console.log(error));
- 
-  }, []);
+      .catch(error =>
+        {
+         console.log(error)
+         setShopInfo("")
+        }
+      );
+}, []);
+  
 // =====================================================================================
 
-  const handleDeleteClick = (id) => {
-    axios.delete(`http://127.0.0.1:8000/shop/${ID}/`, {
+  const handleDeleteSubmit =  () => {
+    axios.delete(`http://127.0.0.1:8000/shop/shopdetails/${shopInfo.id}/`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
       .then(response => {
         console.log(`Shop with ID ${ID} deleted successfully`);
+        window.location.reload()
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error)
+
+      });
   }
 console.log(shopInfo)
 
@@ -122,10 +132,10 @@ console.log(shopInfo)
       <div className="card-body" key={shopInfo.id}>
         <blockquote className="blockquote mb-0">
                     <div className="PhotoShop">
-                      <img src={shopInfo.image ?   require("../assets/LogoShopClothes.png"):shopInfo.image } width={"100PX"} alt="shopPhoto " className="rounded-circle border-white" />
+                      <img src={shopInfo.image ?`http://127.0.0.1:8000/${shopInfo.profile_image}` :require("../assets/LogoShopClothes.png") } width={"100PX"} alt="shopPhoto " className="rounded-circle border-white" />
                     </div>          
                     <div className="bg" style={{ height: '220px' }}>
-          <img src={ shopInfo.image ? require("../assets/car2.jpg"):shopInfo.image } alt="bacground" width={"100%"} style={{ objectFit: 'cover', height: '100%' }} className="card-img-top" srcset="" />          
+          <img src={ shopInfo.image ? `http://127.0.0.1:8000/${shopInfo.image}`:require("../assets/car2.jpg") } alt="bacground" width={"100%"} style={{ objectFit: 'cover', height: '100%' }} className="card-img-top" srcset="" />          
                     </div>
           <Card.Title className="mt-5 font-weight-bold "><h2>{shopInfo.title}</h2></Card.Title>
           <p>{shopInfo.details}</p>
@@ -135,7 +145,7 @@ console.log(shopInfo)
                         <Link className="btn btn-success" to={`/shop/myshop`}>View</Link >
                 </div>
                       <div className="col">
-                        <Link className=" btn bg-danger text-white"onClick={handleDeleteClick(shopInfo.id)} > Delete</Link >
+                        <button className=" btn bg-danger text-white" onClick={handleDeleteSubmit} > Delete</button >
                 </div>
             </div>
         </blockquote>
