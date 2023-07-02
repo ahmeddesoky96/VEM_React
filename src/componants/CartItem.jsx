@@ -5,12 +5,14 @@ import axios from "axios";
 
 const CartItem = ({ id, quantity }) => {
   const [storeItems, setstoreItems] = useState([]);
+  const shop_id=localStorage.getItem('shopID')
 
   const getProductData = async () => {
     try {
-      const response = await axios.get("https://fakestoreapi.com/products");
+      const response = await axios.get(`http://localhost:8000/shop/mycart/products/`);
       const products = response.data;
       setstoreItems(products);
+  
     } catch (error) {
       console.log(error);
     }

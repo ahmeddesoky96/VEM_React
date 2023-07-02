@@ -20,7 +20,13 @@ import ShoppingCartProvider from "./context/shopingCartContext";
 import Profile from "./componants/Profile";
 import ProfileEdit from "./componants/ProfileEdit";
 import AddShop from "./componants/AddShop";
-
+import ShopDisplayOwner from "./componants/ShopDisplayOwner";
+import ShopDisplayUser from "./componants/ShopDisplayUser";
+import AddProduct from "./componants/AddProduct";
+import DisplayProduct from "./componants/DisplayProduct";
+import UpdateProduct from "./componants/UpdateProduct";
+import Payment from "./componants/Payment";
+import Shops from "./componants/Shops";
 
 const router = createBrowserRouter([
   {
@@ -30,12 +36,21 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/Projects", element: <Projects /> },
-      { path: "/Store", element: <Store /> },
+      { path: "/shops", element: <Shops /> },
       { path: "/About", element: <About /> },
       { path: "/Contact", element: <Contact /> },
       { path: "/profile", element: <Profile/> },
       { path: "/profile/edit", element: <ProfileEdit/> },
       { path: "/shop/add", element: <AddShop/> },
+      { path: "/shop/myshop", element: <ShopDisplayOwner/> },
+      { path: "/shop/displayshop/:id/", element: <ShopDisplayUser/> },
+      { path: "/shop/addproduct", element: <AddProduct/> },
+      { path: "/shop/updateproduct/:id/", element: <UpdateProduct/> },
+      { path: "/shop/products/displayproduct/:id/", element: <DisplayProduct/> },
+      { path: "/payment", element: <Payment /> },
+
+
+
     ],
   },
   { path: "/Signin", element: <SignIn /> },

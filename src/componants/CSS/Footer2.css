@@ -2,7 +2,7 @@
 
 footer {
   height: 100px;
-  background-color: var(--nav-color);
+  background-color: var(--bg-color);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
