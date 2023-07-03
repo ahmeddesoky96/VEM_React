@@ -34,11 +34,7 @@ const ProductDisplayUser = () => {
     const getProductDetails = async () => {
     const  productID=localStorage.getItem('display-product')
       axios
-        .get(`http://localhost:8000/shop/products/display/${id}/`,{
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
+        .get(`http://localhost:8000/shop/products/display/${id}/`)
         .then((response) => {
           setProductInfo(response.data);
           localStorage.setItem("myProductId", response.data.id);
@@ -136,11 +132,7 @@ const ProductDisplayUser = () => {
   const getProductDetails = async () => {
     const productID=localStorage.getItem('display-product')
     axios
-      .get(`http://localhost:8000/shop/products/display/${id}/`,{
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(`http://localhost:8000/shop/products/display/${id}/`)
       .then((response) => {
         setProductInfo(response.data);
         localStorage.setItem("myProductId", response.data.id);

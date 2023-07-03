@@ -22,6 +22,8 @@ const Profile  = () => {
   };
 // =================================================================================================================
   useEffect(() => {
+    if(!localStorage.getItem('access')){window.location.replace("/Signin");}
+
     // fetch user data from backend when component mounts
     const accessToken = localStorage.getItem("access");
 

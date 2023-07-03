@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "./CSS/DisplayShop.css";
+import "./CSS/DisplayShopTemp2.css";
 import { Col, Row ,Container } from "react-bootstrap";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import StoreItem from "./StoreItem";
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from "react-router";
+import StarRatings from 'react-star-ratings';
 
 
-const ShopDisplayOwner  = () => {
+const ShopDisplayOwnerTemp2  = () => {
 // ================================================================================================
 const [userInfo, setUserInfo] = useState(null);
 const [shopInfo, setShopInfo] = useState(null);
@@ -17,13 +18,12 @@ const [shopComments, setShopComments] = useState([]);
 const [gotDataProduct, setGotDataProduct] = useState(false);
 const [commentBody, setCommentBody] = useState('');
 const [userId, setUserId] = useState(null);
+const [value, setValue] = React.useState(2);
 const navigate = useNavigate();
 
 
 // const [accessToken,setAccessToken]=useState(null)
 useEffect(() => {
-  if(!localStorage.getItem('access')){window.location.replace("/Signin");}
-
  const accessToken =localStorage.getItem("access");
   if (accessToken) {
     const decodedToken = jwt_decode(accessToken);
@@ -123,30 +123,45 @@ function handleSubmitComment(event) {
         </div>
       </div>
     )}
+       {/* {shopInfo ?( */}
+       <div className="text-center">
+                    <img src={require("../assets/user.jpg")} width="150" alt="UserPhoto" className=" Photo_Shop rounded-circle"/>
+                </div>
+      {/* ): (    */}
+        {/* <div className="text-center p-5">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div> */}
+    {/* )} */}
+ 
       </div>
-    <div className="shop-details">
+    <div className=" d-flex flex-column flex-wrap align-items-stretch">
       {shopInfo ?(
         <>
-        <h2 className="mt-2 mt-5 " style={{textAlign:"center"}}><span className="shop-title">{shopInfo.title}</span>  </h2>
+        <h2 className=" mt-5 " style={{textAlign:"center"}}><span className="border-bottom">{shopInfo.title}</span>  </h2>
         <div className="text-center p-4 ">
-              
-             
-                <p className=" element"><h4><span className="title-detail">Owner</span>: <span style={{marginLeft:"1%"}}>{shopInfo.owner.first_name} {shopInfo.owner.last_name}</span> </h4></p>
-             
-              
-                <p className=" element"><p><span className="title-detail">details</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.details}</span></p></p>
-            
-              
-                <p className=" element"><span className="title-detail">Category</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.category.name}</span></p>
-                <p className=" element"><span className="title-detail">Rate</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.total_rate}</span>  <span  className="title-detail " style={{marginLeft:"40%"}}>Report Count</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.report_count}</span></p>
-              
-              
-                    
-                    {/* <span className=".text-primary p-1 px-4 rounded " style={{display: userInfo.is_seller ? "inline" : "none"}}>Seller</span> */}
-                    {/* <img src={require("../assets/quality.png")} width="30" alt="quality" style={{display: userInfo.is_active? "inline" : "none"}}/> */}
-                    {/* <span>UI/UX Designer</span> */}                    
+                <p className=" element"><h4><span className="">Owner</span>: <span style={{marginLeft:"1%"}}>{shopInfo.owner.first_name} {shopInfo.owner.last_name}</span> </h4></p>
+                <p className=" element"><p><span className="">details</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.details}</span></p></p>  
+                <p className=" element"><span className="">Category</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.category.name}</span></p>
+                <p className=" element">
+               <StarRatings
+                rating={Math.floor(shopInfo.total_rate)}
+                starRatedColor="gold"
+                starHoverColor="blue"
+                // changeRating={handleRatingChange}
+                numberOfStars={5}
+                starDimension="30px"
+                starSpacing="10px"
+                starEmptySymbol={<i className="far fa-star"></i>}
+                starFullSymbol={<i className="fas fa-star"></i>}
+              /> 
+              <p>You rated this {Math.floor(shopInfo.total_rate)} stars.</p></p>
+              <p className="bg-danger p-2 text-light">
+                     <span   >Report Count</span>:  <span style={{marginLeft:"1%"}}>{shopInfo.report_count}</span></p>
+                              
         </div  > 
-        <div className="shop-rate">
+        <div className="">
 
                   {shopInfo.owner.id!=userId?(<>
                     <h3>Add Comment</h3>
@@ -161,7 +176,7 @@ function handleSubmitComment(event) {
                     </>
                     ):(
                     <div style={{textAlign:"center"}}>
-                        <h2>Wish Your Shop Going Well (^_^)</h2>
+                        <h2>NO COMMINTS</h2>
                     </div>
                     )}
           </div>       
@@ -179,11 +194,11 @@ function handleSubmitComment(event) {
     <div className="shop-store">
       
           <div className=" p-4">
-                  <h1>Store</h1>
+                  <h1 className="text-center bg-dark text-light" >Store</h1>
                   <button className="btn btn-primary my-4"  variant="warning"
                     onClick={() => {
                     navigate(`/shop/addproduct`);
-                    }}>Add Product</button>
+                    }}> + Add Product</button>
                   {shopInfo ?(
                 <div className=" container-fluid shop-store-container">
                   <br />
@@ -205,7 +220,7 @@ function handleSubmitComment(event) {
                 )}
           </div  >        
     </div>
-    <div className="shop-comments">
+    <div className="shop-store">
       {shopInfo ?(
           <div className=" p-4">
                   <h1>Comments</h1>
@@ -216,8 +231,9 @@ function handleSubmitComment(event) {
                       shopComments.map((item) => (
                         <Col key={item.id} style={{ padding: "" }}>
                           <div className="comment-label">
-                            <span className="user-comment">{item.user.first_name} {item.user.last_name}</span>
-                            {shopInfo.owner.id==item.user.id?(<span style={{backgroundColor:"black",color:"white",padding:"10px",marginRight:"10px",borderRadius:"10px",fontWeight:"bolder"}}>Owner </span>):("")}
+                            <img src={`http://localhost:8000/${item.user.profile_picture}`} alt="" srcset="" />
+                            <span className="">{item.user.first_name} {item.user.last_name}</span>
+                            {shopInfo.owner.id==item.user.id?(<span className="user-comment bg-info"  style={{}}>Owner </span>):("")}
                             <span>{item.report_count} </span>
                             <p className="body-comment">{item.comment_body} </p>
                           </div>
@@ -226,13 +242,14 @@ function handleSubmitComment(event) {
                       ))}
                   </div>
                 </div>  
+                <hr/>
                 {localStorage.getItem("access")?(<>
                 <h3>Add Comment</h3>
                 <form onSubmit={handleSubmitComment}>
                   <label>
                    
                     <input type="text" placeholder="Comment..." className=" add-comment" value={commentBody} onChange={event => setCommentBody(event.target.value)} />
-                  </label>
+                   </label>
                   <br />
                   <button className="btn btn-primary" type="submit">Comment</button>
                 </form> 
@@ -258,5 +275,5 @@ function handleSubmitComment(event) {
   );
 };
 
-export default ShopDisplayOwner;
+export default ShopDisplayOwnerTemp2;
 

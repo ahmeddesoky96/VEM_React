@@ -53,7 +53,7 @@
 .shop-store{
     /* border: 2px gray solid; */
     margin: 5%;
-    box-shadow: 0px 0px 15px 7px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0px 0px 15px 7px rgba(0, 0, 0, 0.2); */
     padding: 3%;
 }
 .shop-store .shop-store-container{
@@ -69,18 +69,18 @@
     border-radius: 100px 0% 100px 0%;
 }
 
-/* .comment-label{
-   border: 2px gray solid;
-   border-radius: 25px;
+.comment-label{
+   border: 3px gray solid;
+   border-radius: 7px;
    padding: 2% 2%;
    margin: 2% 5%;
    width: 90%;
-} */
+}
 .comment-label .user-comment{
     /* background-color: rgb(210, 210, 211); */
-    padding:1%;
-    margin: 2%;
-    /* border-radius: 50%; */
+    /* padding: 1.2% 2%; */
+    margin:  2%;
+    border-radius:10px;
     width: auto;
 }
 .comment-label .body-comment{
@@ -120,12 +120,12 @@
     border-radius: 50px ;
 }
 
-/* =============================================================================================== */
-.rounded{
-    border-radius: 3px;
-}
-.Photo_proudct{
-    position:relative;
-    top: -72px;
+
+
+.Photo_Shop{
+    position: relative;
+    top: -96px;
     border: 8px solid white;
 }
+
+

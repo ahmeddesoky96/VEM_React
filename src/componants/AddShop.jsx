@@ -26,6 +26,8 @@ const AddShop = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [image, setImage] = useState(null);
 
+  if(!localStorage.getItem('access')){window.location.replace("/Signin");}
+
   const accessToken = localStorage.getItem("access");
   const decodedToken = jwtDecode(accessToken);
   console.log(decodedToken.user_id);
@@ -86,6 +88,7 @@ const AddShop = () => {
   };
   // ============================================================================================================================
   useEffect(() => {
+    
     const accessToken = localStorage.getItem("access");
     axios
       .get(`http://127.0.0.1:8000/shop/${ID}/`)

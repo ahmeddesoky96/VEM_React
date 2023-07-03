@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Layout from "./componants/Layout";
 import ErrorPage from "./componants/ErrorPage";
 import About from "./componants/About";
-import Projects from "./componants/Projects";
 import Contact from "./componants/Contact";
 import Home from "./componants/Home";
 import SignIn from "./componants/SignIn";
@@ -24,8 +23,10 @@ import ShopDisplayUser from "./componants/ShopDisplayUser";
 import AddProduct from "./componants/AddProduct";
 import DisplayProduct from "./componants/DisplayProduct";
 import UpdateProduct from "./componants/UpdateProduct";
-import Payment from "./componants/Payment";
 import Shops from "./componants/Shops";
+import ShopDisplayOwnerTemp2 from "./componants/ShopDisplayOwnerTemp2";
+
+// if(!localStorage.getItem('access')){window.location.replace("/Signin");}
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,6 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/Projects", element: <Projects /> },
       { path: "/shops", element: <Shops /> },
       { path: "/About", element: <About /> },
       { path: "/Contact", element: <Contact /> },
@@ -42,11 +42,11 @@ const router = createBrowserRouter([
       { path: "/profile/edit", element: <ProfileEdit/> },
       { path: "/shop/add", element: <AddShop/> },
       { path: "/shop/myshop", element: <ShopDisplayOwner/> },
+      { path: "/shop/myshoptemp2", element: <ShopDisplayOwnerTemp2/> },
       { path: "/shop/displayshop/:id/", element: <ShopDisplayUser/> },
       { path: "/shop/addproduct", element: <AddProduct/> },
       { path: "/shop/updateproduct/:id/", element: <UpdateProduct/> },
       { path: "/shop/products/displayproduct/:id/", element: <DisplayProduct/> },
-      { path: "/payment", element: <Payment /> },
 
 
 

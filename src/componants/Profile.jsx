@@ -3,7 +3,7 @@ import "./CSS/Profile.css";
 import { Container,Card } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate,Navigate } from "react-router-dom";
 import jwt_decode from 'jwt-decode';
 
 
@@ -14,8 +14,9 @@ const Profile = () => {
   const [ID, setID] = useState(null);
   // const [rent,setRent] = useState("");
   const navigate=useNavigate()
-
+  
   useEffect(() => {
+  if(!localStorage.getItem('access')){window.location.replace("/Signin");}
   const accessToken = localStorage.getItem("access");
   const decodedToken = jwt_decode(accessToken);
   console.log(decodedToken.user_id);
@@ -71,7 +72,18 @@ const Profile = () => {
   }
 console.log(shopInfo)
 
-
+const GetMyShop=()=>{
+  if(shopInfo){
+    console.log(shopInfo.template)
+    if(shopInfo.template==1){
+        window.location.href='http://127.0.0.1:3000/shop/myshoptemp2'
+        console.log("hello"+shopInfo.template)
+    }else if(shopInfo.template==2){
+      console.log("bye"+shopInfo.template)
+      window.location.href='http://127.0.0.1:3000/shop/myshop'
+    }
+  }
+}
 // -------------------------------------------------------------------------------------------------------------  
   return (
    <Container className="height_contener my-5">
@@ -148,7 +160,7 @@ console.log(shopInfo)
                     <p className="blockquote-footer">date start<cite title="Source Title">{shopInfo.created_at}</cite></p>
                     <div className="row d-flex flex-row">
                       <div className="col d-flex flex-row-reverse">
-                        <Link className="btn btn-success" to={`/shop/myshop`}>View</Link >
+                        <Link className="btn btn-success" onClick={GetMyShop} >View</Link >
                 </div>
                       <div className="col">
                         <button className=" btn bg-danger text-white" onClick={handleDeleteSubmit} > Delete</button >
