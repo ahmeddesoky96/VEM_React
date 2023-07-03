@@ -119,7 +119,7 @@ function handleRatingChange(event) {
 const getShopDetails= async ()=>{
     const accessToken =localStorage.getItem("access");
 
-    axios.get('http://localhost:8000/shop/displayshop/7',{
+    axios.get(`http://localhost:8000/shop/displayshop/${id}`,{
       headers: {
       Authorization: `Bearer ${accessToken}`,
       },
@@ -186,6 +186,7 @@ function handleSubmitRate(event) {
       .catch(error => {
         console.error(error);
       });
+
   };
 
 
@@ -249,7 +250,6 @@ function handleSubmitRate(event) {
                                     <option value="7">7</option>
                                     <option value="8">8</option>
                                     <option value="9">9</option>
-                                    <option value="10">10</option>
                                 </select>
                                 <br />
                                 {ratingSuccess?(

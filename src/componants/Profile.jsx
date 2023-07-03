@@ -4,20 +4,24 @@ import { Container,Card } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-import jwtDecode from 'jwt-decode';
-const accessToken = localStorage.getItem("access");
-const decodedToken = jwtDecode(accessToken);
-console.log(decodedToken.user_id);
-const ID=decodedToken.user_id;
+import jwt_decode from 'jwt-decode';
+
+
 const Profile = () => {
   // ================================================================================================
   const [userInfo, setUserInfo] = useState(null);
   const [shopInfo, setShopInfo] = useState([]);
+  const [ID, setID] = useState(null);
   // const [rent,setRent] = useState("");
   const navigate=useNavigate()
 
   useEffect(() => {
+  const accessToken = localStorage.getItem("access");
+  const decodedToken = jwt_decode(accessToken);
+  console.log(decodedToken.user_id);
+  setID(decodedToken.user_id)
   axios.get('http://127.0.0.1:8000/profile/',{
+    
     headers: {
     Authorization: `Bearer ${accessToken}`,
     },
@@ -49,6 +53,8 @@ const Profile = () => {
 // =====================================================================================
 
   const handleDeleteSubmit =  () => {
+    const accessToken = localStorage.getItem("access");
+
     axios.delete(`http://127.0.0.1:8000/shop/shopdetails/${shopInfo.id}/`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

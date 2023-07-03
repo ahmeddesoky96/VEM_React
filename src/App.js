@@ -15,7 +15,6 @@ import CheckMail from "./componants/CheckMail";
 import ForgetPassword from "./componants/ForgetPassword";
 import Activation from "./componants/ActivationUser";
 import ConfirmResetPassword from "./componants/ConfirmResetPassword";
-import Store from "./componants/Store";
 import ShoppingCartProvider from "./context/shopingCartContext";
 import Profile from "./componants/Profile";
 import ProfileEdit from "./componants/ProfileEdit";

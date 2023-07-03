@@ -132,14 +132,11 @@ console.log(userInfo)
                   {/* <i className="ti ti-user fs-4"></i> */}
                   <p className="mb-0 fs-6">My Profile</p>
                 </a>
-                <a href="a" className="d-flex align-items-center gap-2 dropdown-item">
+                <a href='/shop/myshop' className="d-flex align-items-center gap-2 dropdown-item">
                   {/* <i class="ti ti-mail fs-4"></i> */}
                   <p className="mb-0 fs-6">My shop</p>
                 </a>
-                <a href="#1" className="d-flex align-items-center gap-2 dropdown-item">
-                  {/* <i class="ti ti-list-check fs-4"></i> */}
-                  <p className="mb-0 fs-6">My product</p>
-                </a>
+                
                 <button  onClick={handleRemoveClick}  className="btn btn-outline-primary mx-2 mt-2 d-block">Logout</button>
               </div>
             </div>
