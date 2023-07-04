@@ -7,9 +7,9 @@ export default function Cards() {
   useEffect(() => {
     console.log("Hello");
     fetch('http://127.0.0.1:8000/shop/shops/', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      }
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      // }
     })
       .then(res => res.json())
       .then(data => {

@@ -13,6 +13,7 @@ const UpdateProduct = () => {
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [image, setImage] = useState('');
+  const [oldImage, setOldImage] = useState('');
   const [productInfo, setProductInfo] = useState(null);
   useEffect(() => {
 
@@ -30,7 +31,7 @@ const UpdateProduct = () => {
           setDetails(response.data.details);
           setPrice(response.data.price);
           setQuantity(response.data.quantity);
-          setImage(response.data.image);
+          setOldImage(response.data.image);
           localStorage.setItem("myProductId", response.data.id);
         })
 
@@ -43,9 +44,11 @@ const UpdateProduct = () => {
     formData.append("details", details);
     formData.append("price", price);
     formData.append("quantity", quantity);
-    if (!image) {
+    if(image!==null){
+
       formData.append("image", image);
     }
+    
 
     e.preventDefault();
     const accessToken = localStorage.getItem("access");
@@ -60,7 +63,7 @@ const UpdateProduct = () => {
       })
       .then((response) => {
         console.log(response.data);
-        window.location.replace("/");
+        window.location.replace("/shop/myshop");
       })
       .catch((error) => {
         console.log(error);
@@ -114,12 +117,12 @@ const UpdateProduct = () => {
                     <div className="card-header text-info fs-5">
                       Add or Change image of the Product
                     </div>
-                    {image ? (
+                    {oldImage ? (
                       <img
                         className=""
                         src={
-                          image
-                            ? `http://localhost:8000/${image}`
+                          oldImage
+                            ? `http://localhost:8000/${oldImage}`
                             : require("../assets/user.jpg")
                         }
                         alt="Productimage"

@@ -22,15 +22,21 @@ function handleRemoveClick() {
 useEffect(() => {
   
   const accessToken = localStorage.getItem("access");
-  axios.get('http://127.0.0.1:8000/profile/',{
-    headers: {
-    Authorization: `Bearer ${accessToken}`,
-    },
-  })
-    .then(response => setUserInfo(response.data), 
-    )
-    
-    .catch(error => console.log(error));
+  if ( accessToken ) {
+
+    axios.get('http://127.0.0.1:8000/profile/',{
+      headers: {
+      Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => setUserInfo(response.data), 
+      )
+      
+      .catch(error => console.log(error));
+  }
+
+   
+
 }, []);
 console.log(userInfo)
 

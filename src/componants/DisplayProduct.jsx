@@ -32,9 +32,13 @@ const ProductDisplayUser = () => {
       setUserId(decodedToken.user_id);
     }
     const getProductDetails = async () => {
-    const  productID=localStorage.getItem('display-product')
+      const productID = localStorage.getItem("display-product");
       axios
-        .get(`http://localhost:8000/shop/products/display/${id}/`)
+        .get(`http://localhost:8000/shop/products/display/${id}/`, {
+          // headers: {
+          //   Authorization: `Bearer ${accessToken}`,
+          // },
+        })
         .then((response) => {
           setProductInfo(response.data);
           localStorage.setItem("myProductId", response.data.id);
@@ -74,11 +78,12 @@ const ProductDisplayUser = () => {
   const getCommentsData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/shop/products/comments/${productInfo.id}/`,{
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+        `http://localhost:8000/shop/products/comments/${productInfo.id}/`,
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${accessToken}`,
+        //   },
+        // }
       );
       const comments = response.data;
       setProductComments(comments);
@@ -130,9 +135,13 @@ const ProductDisplayUser = () => {
     setRating(parseInt(event.target.value));
   }
   const getProductDetails = async () => {
-    const productID=localStorage.getItem('display-product')
+    const productID = localStorage.getItem("display-product");
     axios
-      .get(`http://localhost:8000/shop/products/display/${id}/`)
+      .get(`http://localhost:8000/shop/products/display/${id}/`, {
+        // headers: {
+        //   Authorization: `Bearer ${accessToken}`,
+        // },
+      })
       .then((response) => {
         setProductInfo(response.data);
         localStorage.setItem("myProductId", response.data.id);
@@ -242,44 +251,60 @@ const ProductDisplayUser = () => {
               </p>
             </div>
             {localStorage.getItem("access") ? (
-              <div style={{ display: "flex" }} className="div-shop-rate">
-                <div className="shop-rate">
-                  <h3>Add Rate</h3>
-                  <form onSubmit={handleSubmitRate}>
-                    <label>
-                      <div>
-                        <label htmlFor="rating-select">Rate this Shop:</label>
-                        <select
-                          id="rating-select"
-                          value={rating}
-                          onChange={handleRatingChange}
-                        >
-                          <option value="0">0</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                        </select>
-                        <br />
-                        {ratingSuccess?(
-                                      <span style={{backgroundColor:"lightgreen",padding:"5px",borderRadius:"10px",width:"fit-content"}}>{ratingSuccess}</span>
-                            ):("")}
-                       
-                      </div>
-                    </label>
-                    <br />
-                    <button className="btn btn-primary" type="submit">
-                      Rate
-                    </button>
-                  </form>
+              productInfo.owner.id != userId ? (
+                <div style={{ display: "flex" }} className="div-shop-rate">
+                  <div className="shop-rate">
+                    <h3>Add Rate</h3>
+                    <form onSubmit={handleSubmitRate}>
+                      <label>
+                        <div>
+                          <label htmlFor="rating-select">Rate this Shop:</label>
+                          <select
+                            id="rating-select"
+                            value={rating}
+                            onChange={handleRatingChange}
+                          >
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                          </select>
+                          <br />
+                          {ratingSuccess ? (
+                            <span
+                              style={{
+                                backgroundColor: "lightgreen",
+                                padding: "5px",
+                                borderRadius: "10px",
+                                width: "fit-content",
+                              }}
+                            >
+                              {ratingSuccess}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      </label>
+                      <br />
+                      <button className="btn btn-primary" type="submit">
+                        Rate
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <h2>We Wish You Good Luck (^_^)</h2>
+                </div>
+              )
             ) : (
               <div style={{ textAlign: "center" }}>
                 <h2>You Need To Login To See this Part (^_^)</h2>
@@ -369,7 +394,6 @@ const ProductDisplayUser = () => {
   );
 
   // ------------------------
-  
 };
 
 export default ProductDisplayUser;

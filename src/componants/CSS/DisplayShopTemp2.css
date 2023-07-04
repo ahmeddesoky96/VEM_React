@@ -124,8 +124,12 @@
 
 .Photo_Shop{
     position: relative;
-    top: -96px;
-    border: 8px solid white;
+    bottom:  8vw;
+    border-radius: 50%;
+    height: 24vh;
+    object-fit:cover;
+    object-position: center;
+    border: 2px solid white;
 }
 
 

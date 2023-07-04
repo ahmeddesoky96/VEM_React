@@ -4,8 +4,12 @@ import { useShoppingCart } from "../context/shopingCartContext";
 import "./CSS/StoreItem.css";
 import {Navigate } from "react-router-dom"
 import { useNavigate } from "react-router";
+import axios from 'axios';
 
-const StoreItem = ({ id, price, title, image }) => {
+
+
+
+const StoreItem = ({ id, price, title, image ,price_id }) => {
   const navigate = useNavigate();
   const {
     getItemQuantity,
@@ -19,6 +23,30 @@ const StoreItem = ({ id, price, title, image }) => {
     
     
   }
+
+
+  const handleDeleteProductSubmit =  () => {
+    const accessToken = localStorage.getItem("access");
+        // console.log(`Shop with ID ${id} deleted successfully`);
+  
+    axios.delete(`http://127.0.0.1:8000/shop/products/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then(response => {
+        console.log(`Shop with ID ${id} deleted successfully`);
+        window.location.reload()
+      })
+      .catch(error => {
+        console.log(error)
+  
+      });
+  }
+
+
+
+
   const quantity = getItemQuantity(id);
   return (
     <Card className="h-100 " key={id}>
@@ -30,35 +58,37 @@ const StoreItem = ({ id, price, title, image }) => {
       ></Card.Img>
       <Card.Body>
         <div>
-          <button className="btn btn-primary" variant="warning"
+          <button className="btn btn-primary" style={{backgroundColor:"black" ,color:"white",fontWeight:"bolder",borderRadius:"5px", border:"0" ,fontSize:"22px"}}  variant="warning"
               onClick={() => {
                 navigate(`/shop/products/displayproduct/${id}/`);
               }}>Display</button>
+
         </div>
         <Card.Title
-          className="d-flex justify-content-between align-items-baseline "
+          className="d-flex justify-content-between align-items-baseline p-0 "
+          style={{height:"17%"}}
           id="cardTitle"
         >
-          <h3>{title}</h3>
-          <h5 className="text-muted me-2">{price} $</h5>
+          <h3>{title}</h3> 
+          <h5 className="text-muted me-2">  {price} $</h5>
         </Card.Title>
         {localStorage.getItem('userID')!==localStorage.getItem('ownerID')?(
         <div className="mt-auto">
           
           {quantity === 0 ? (
-            <Button className="w-100" onClick={() => increaseCartQuantity(id)}>
+            <button style={{backgroundColor:"black" ,color:"white",fontWeight:"bolder",marginTop:"20px",borderRadius:"10px"}} className="w-100" onClick={() => increaseCartQuantity(id,price_id)}>
               Add To Cart
-            </Button>
+            </button>
           ) : (
             <div className="d-flex flex-column align-items-center">
               <div className="d-flex align-items-center justify-content-center">
-                <Button size="sm" onClick={() => decreaseCartQuantity(id)}>
+                <button className="px-2"  style={{backgroundColor:"red" ,color:"white",fontWeight:"bolder",borderRadius:"5px", border:"0" ,fontSize:"22px"}} size="sm" onClick={() => decreaseCartQuantity(id)}>
                   -
-                </Button>
+                </button>
                 <span className="fs-3 mx-2">{quantity}</span>
-                <Button size="sm" onClick={() => increaseCartQuantity(id)}>
+                <button className="px-2" size="sm" style={{backgroundColor:"green" ,color:"white",fontWeight:"bolder",borderRadius:"5px", border:"0" ,fontSize:"22px"}} onClick={() => increaseCartQuantity(id)}>
                   +
-                </Button>
+                </button>
               </div>
               <Button
                 onClick={() => removeFromCart(id)}
@@ -70,10 +100,16 @@ const StoreItem = ({ id, price, title, image }) => {
             </div>
           )}
         </div>
-        ):(<Button className="btn btn-primary my-4"  variant="warning"
+        ):(
+        <>
+        <Button className="btn btn-primary my-4"  variant="warning"
                     onClick={() => {
                     navigate(`/shop/updateproduct/${id}/`);
-                    }}>Edit</Button>)}
+                    }}>Edit</Button>
+                    <button className=" btn bg-danger text-white " style={{marginLeft:"26%"}} onClick={handleDeleteProductSubmit} > Delete</button >
+                    </>
+                    )}
+
       </Card.Body>
     </Card>
   );
