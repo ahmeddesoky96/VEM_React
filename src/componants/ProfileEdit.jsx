@@ -47,16 +47,24 @@ const Profile  = () => {
 // ============================================================================================================
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const updatedUser = {last_name,first_name,email,phone,birth_date,location,ProfilePicture};
+    const updatedUser = {
+      first_name:first_name,
+      last_name:last_name
+      ,email:email
+      ,phone:phone
+      ,birth_date:birth_date
+      ,location:location,
+      
+    };
+    console.log(updatedUser);
     try {
       const accessToken = localStorage.getItem("access");
-      const response = await axios.put('http://localhost:8000/profile/',JSON.stringify(updatedUser),{
+      const response = await axios.put('http://localhost:8000/profile/edit',updatedUser,{
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
          } });
-          console.log(response.data);
-          console.log(JSON.stringify(updatedUser));
+         
         } catch (error) {
           console.error(error);
           console.log(JSON.stringify(updatedUser));

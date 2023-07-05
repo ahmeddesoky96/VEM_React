@@ -20,12 +20,11 @@ const Home = () => {
   const [shopInfo, setShopInfo] = useState(null);
   
   useEffect(() => {
-    const accessToken = localStorage.getItem("access");
-    const decodedToken = jwtDecode(accessToken);
-    console.log(decodedToken)
-    axios.get('http://127.0.0.1:8000/shop/rated',{headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },})
+    // const accessToken = localStorage.getItem("access");
+    // ,{headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    // },}
+    axios.get('http://127.0.0.1:8000/shop/rated')
       .then(response => setShopInfo(response.data))
 
       .catch(error => console.log(error));
