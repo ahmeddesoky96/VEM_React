@@ -24,7 +24,7 @@ import AddProduct from "./componants/AddProduct";
 import DisplayProduct from "./componants/DisplayProduct";
 import UpdateProduct from "./componants/UpdateProduct";
 import Shops from "./componants/Shops";
-import ShopDisplayOwnerTemp2 from "./componants/ShopDisplayOwnertemp2";
+import ShopDisplayOwnerTemp2 from "./componants/ShopDisplayOwnerTemp2";
 import ShopDisplayUserTemp2 from "./componants/ShopDisplayUserTemp2";
 
 // if(!localStorage.getItem('access')){window.location.replace("/Signin");}
