@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import { Card, Row, Container, Col } from "react-bootstrap";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
+
 
 const Home = () => {
   const settings = {
@@ -31,9 +32,14 @@ const Home = () => {
   }, []);
   console.log("shop info: " + shopInfo )
   const accessToken = localStorage.getItem("access");
+  if (accessToken) {
+    const decodedToken = jwt_decode(accessToken);
+    console.log(decodedToken.user_id);
+  }
 
-
-
+  if(!accessToken){
+    window.location.href='http://127.0.0.1:3000/Signin'
+  }
   return (
     <>
       <div className="container w-100   full">

@@ -12,6 +12,7 @@ const Profile  = () => {
   const [birth_date, setbirth_date] = useState('');
   const [location, setLocation] = useState('');
   const [ProfilePicture,setProfilePicture] = useState(null);
+  const [displayedimage,setDisplayedimage]= useState(null);
   const inputRef = useRef(null);
   const handleFileChange = (event) => {
     setProfilePicture(event.target.files[0]);
@@ -21,6 +22,8 @@ const Profile  = () => {
   };
 // =================================================================================================================
   useEffect(() => {
+    if(!localStorage.getItem('access')){window.location.replace("/Signin");}
+
     // fetch user data from backend when component mounts
     const accessToken = localStorage.getItem("access");
 
@@ -40,36 +43,53 @@ const Profile  = () => {
         setPhone(response.data.phone);
         setbirth_date(response.data.birth_date);
         setLocation(response.data.location);
-        setProfilePicture(response.data.profile_picture);
+        setDisplayedimage(response.data.profile_picture);
       })
       .catch(error => console.error(error));
   }, []);
 // ============================================================================================================
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const updatedUser = {
-      first_name:first_name,
-      last_name:last_name
-      ,email:email
-      ,phone:phone
-      ,birth_date:birth_date
-      ,location:location,
+    const formData = new FormData();
+    formData.append('first_name', first_name);
+    formData.append('last_name', last_name);
+    formData.append('email', email);
+    if (phone !== null) {
+      formData.append('phone', phone);
+    }
+    if (birth_date !== null) {
+      formData.append('birth_date', birth_date);
+    }
+    formData.append('location', location);
+    if (ProfilePicture !== null) {
+      formData.append('profile_picture', ProfilePicture);
+    }
+    // const updatedUser = {
+    //   first_name:first_name,
+    //   last_name:last_name
+    //   ,email:email
+    //   ,phone:phone
+    //   ,birth_date:birth_date
+    //   ,location:location,
       
-    };
-    console.log(updatedUser);
+    // };
     try {
       const accessToken = localStorage.getItem("access");
-      const response = await axios.put('http://localhost:8000/profile/edit',updatedUser,{
+      const response = await axios.put('http://localhost:8000/profile/edit',formData,{
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${accessToken}`,
          } });
+         console.log(response)
+         window.location.replace("/profile");
+
          
         } catch (error) {
           console.error(error);
-          console.log(JSON.stringify(updatedUser));
+          console.log(formData);
         }
       };
+      
 // ==================================================================================================================
   return (
   <>
@@ -79,7 +99,8 @@ const Profile  = () => {
         <div className="col">
             <div className="card ">
                 <div className="text-center">
-                    <img src={require("../assets/user.jpg")} onChange={(e) => setProfilePicture(e.target.value)} width="150" alt="UserPhoto" class="rounded-circle"/>
+                    <img style={{marginTop:"3%"}} onChange={(e) => setProfilePicture(e.target.value)} src={displayedimage ? `http://localhost:8000/${displayedimage}` : require("../assets/user.jpg")} width="150" alt="UserPhoto" className="rounded-circle"/>
+
                 </div>
                               <div className="text-center mt-3 p-3">
                     {/* <span className="bg-pramary p-1  rounded text-white">{}</span> */}
@@ -87,7 +108,7 @@ const Profile  = () => {
                     {/* <span>UI/UX Designer</span> */}
                     {user ? (
                     // <>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} enctype='multipart/form-data'>
                       <div className="d-flex justify-content-between ">
                       <div className="txt_fieldedit  " >
                         <input type="text"   value={first_name} onChange={(e) => setfirst_name(e.target.value)}   />
@@ -111,7 +132,7 @@ const Profile  = () => {
                         <label>Phone Number</label>
                       </div>
                       <div className="txt_fieldedit">
-                        <input type="text"  value={birth_date} onChange={(e) => setbirth_date(e.target.value)} />
+                        <input type="date"  value={birth_date} onChange={(e) => setbirth_date(e.target.value)} />
                         <span></span>
                         <label>Birth Date</label>
                       </div>
@@ -121,14 +142,14 @@ const Profile  = () => {
                         <label>Location</label>
                       </div>
                       {/* <input type="file" name="photo" onChange={handleFileChange} style={{ display: "none" }} /> */}
-                    {/* <img 
-                      src={require("../assets/photo edit.png")} 
-                      width={"54px"} 
-                      alt="edit profile"
-                      ref={inputRef}
-                      onClick={handlePhotoClick}  
-                      className="btn btn-light edit" 
-                       /> */}
+                      <input
+                      id="file-upload"
+                      type="file"
+                      
+                      onChange={e => setProfilePicture(e.target.files[0])} 
+                      accept="image/*"
+                    />
+                     
                     <div className="container">
                     <div className="row">
                     <div className="col"><input className="btn-success" type="submit" value="Save"  /></div>

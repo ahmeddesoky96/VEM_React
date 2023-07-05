@@ -3,25 +3,53 @@ import { Offcanvas, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/shopingCartContext";
 import CartItem from "./CartItem";
 import axios from "axios";
+import { API_URL } from "../config/index";
 
-const ShoppingCart = ({ isOpen }) => {
+
+const ShoppingCart = ({ isOpen },{ id, quantity }) => {
   const [storeItems, setstoreItems] = useState([]);
+  const [gotDataProduct, setGotDataProduct] = useState(false);
 
-  const getProductData = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      const products = response.data;
-      setstoreItems(products);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+  
 
   useEffect(() => {
-    getProductData();
+    
+   
+    const getProductData = async () => {
+    
+      try {
+        const response = await axios.get(`http://localhost:8000/shop/mycart/products/`);
+        const products = response.data;
+        setstoreItems(products);
+    
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    getProductData(); 
   }, []);
 
+
+
+    // if(!gotDataProduct){
+    //   setGotDataProduct(true)
+    //   console.log(gotDataProduct)
+    //   getProductData();
+    // }
+  
+  
   const { closeCart, cartItems } = useShoppingCart();
+  const get_id=localStorage.getItem('shopping-cart')
+  
+  const ids=cartItems.map((item) => (item.id))
+  const items = storeItems.filter((i) =>ids.includes(i.id));
+
+  console.log(items)
+
+  
+  
   return (
     <Offcanvas show={isOpen} onHide={closeCart} placement="end">
       <Offcanvas.Header closeButton>
@@ -32,7 +60,15 @@ const ShoppingCart = ({ isOpen }) => {
           {cartItems.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
-          <button className="btn btn-info ">
+          <form action={`${API_URL}/shop/create-checkout-session`} method="POST">
+        <input
+          type="hidden"
+          name="cart_items"
+          value={JSON.stringify(items)}
+        />
+       
+       
+          <button className="btn btn-info " type="submit">
             Total :{"  "}
             {cartItems.reduce((total, cartItem) => {
               const item = storeItems.find((i) => i.id === cartItem.id);
@@ -40,6 +76,7 @@ const ShoppingCart = ({ isOpen }) => {
             }, 0)}
             {" "}$
           </button>
+      </form>
         </Stack>
       </Offcanvas.Body>
     </Offcanvas>

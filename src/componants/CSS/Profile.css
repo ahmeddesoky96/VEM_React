@@ -10,9 +10,8 @@
 }
 .edit{
   position: absolute;
-  top: 18%;
-  right: 40%;
-
+  top: 17%;
+  right: 27%;
 }
 .edit1{
   position: absolute;
@@ -20,10 +19,13 @@
   right: 0;
 
 }
-
+.btn[class*="btn-outline-"] {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
 .showinfo{
   position: sticky !important;
-  top: 22%;
+  top: 17%;
   width: 332px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
@@ -122,7 +124,7 @@ input[type="submit"]:hover {
   transition: 0.5s;
 }
 .row{
-  --bs-gutter-x: 11.5rem !important;
+  --bs-gutter-x: 5.5rem !important;
 }
 
 form .txt_fieldedit {
@@ -233,15 +235,27 @@ form .txt_fieldedit {
   box-shadow: 0 0 5px #333;
   z-index: -1;
 }
-
+.PhotoShop{
+  position: absolute;
+    left: 0;
+    bottom: 185px;
+}
+.border-white{
+      border: 5px solid white;
+}
 
 
 
 /* ========================================================================================================== */
 
-@media screen and (max-width:1000px) {
+@media screen and (max-width:1200px) {
   .hide{
     display:none;
 
   }
+  .full{
+    width: 100% !important;
+    margin-bottom: 20px;
+  }
+  
 }
