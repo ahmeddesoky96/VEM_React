@@ -46,7 +46,9 @@ const ShoppingCart = ({ isOpen },{ id, quantity }) => {
   const ids=cartItems.map((item) => (item.id))
   const items = storeItems.filter((i) =>ids.includes(i.id));
 
-  console.log(items)
+  // console.log(items)
+  console.log(cartItems)
+  const { DeleteAll } = useShoppingCart();
 
   
   
@@ -60,15 +62,15 @@ const ShoppingCart = ({ isOpen },{ id, quantity }) => {
           {cartItems.map((item) => (
             <CartItem key={item.id} {...item} />
           ))}
-          <form action={`${API_URL}/shop/create-checkout-session`} method="POST">
+          <form action={`${API_URL}/shop/create-checkout-session`} onSubmit={()=>DeleteAll()} method="POST">
         <input
           type="hidden"
           name="cart_items"
-          value={JSON.stringify(items)}
+          value={JSON.stringify(cartItems)}
         />
        
        
-          <button className="btn btn-info " type="submit">
+          <button className="btn btn-info " type="submit" >
             Total :{"  "}
             {cartItems.reduce((total, cartItem) => {
               const item = storeItems.find((i) => i.id === cartItem.id);

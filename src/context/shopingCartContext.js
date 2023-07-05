@@ -31,10 +31,10 @@ const ShoppingCartProvider = ({ children }) => {
   const getItemQuantity = (id) => {
     return cartItems.find((item) => item.id === id)?.quantity || 0;
   };
-  const increaseCartQuantity = (id) => {
+  const increaseCartQuantity = (id ,price_id) => {
     setCartItems((currItems) => {
       if (currItems.find((item) => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1 }];
+        return [...currItems, { id, quantity: 1 ,price_id}];
       } else {
         return currItems.map((item) => {
           if (item.id === id) {
@@ -65,6 +65,9 @@ const ShoppingCartProvider = ({ children }) => {
 
   const removeFromCart = (id) => {
     setCartItems((currItems) => currItems.filter((item) => item.id !== id));
+  };
+  const DeleteAll = () => {
+    setCartItems([])
   };
 
   return (

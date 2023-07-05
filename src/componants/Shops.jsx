@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 
 const Shops = () => {
   const [shops, setShops] = useState([]);
+  const [getTemp, setGetTemp] = useState([]);
 
   const getShops = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:8000/shop/allshops/");
       const products = response.data;
       setShops(products);
+      
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +30,8 @@ const Shops = () => {
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/shop/allshops/").then((response) => {
       setShopsName(response.data);
+      setGetTemp(response.data)
+      console.log(response.data)
     });
   }, []);
 

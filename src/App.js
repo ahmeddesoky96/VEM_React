@@ -24,7 +24,8 @@ import AddProduct from "./componants/AddProduct";
 import DisplayProduct from "./componants/DisplayProduct";
 import UpdateProduct from "./componants/UpdateProduct";
 import Shops from "./componants/Shops";
-import ShopDisplayOwnerTemp2 from "./componants/ShopDisplayOwnerTemp2";
+import ShopDisplayOwnerTemp2 from "./componants/ShopDisplayOwnertemp2";
+import ShopDisplayUserTemp2 from "./componants/ShopDisplayUserTemp2";
 
 // if(!localStorage.getItem('access')){window.location.replace("/Signin");}
 
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
       { path: "/shop/myshop", element: <ShopDisplayOwner/> },
       { path: "/shop/myshoptemp2", element: <ShopDisplayOwnerTemp2/> },
       { path: "/shop/displayshop/:id/", element: <ShopDisplayUser/> },
+      { path: "/shop/displayshoptemp2/:id/", element: <ShopDisplayUserTemp2/> },
       { path: "/shop/addproduct", element: <AddProduct/> },
       { path: "/shop/updateproduct/:id/", element: <UpdateProduct/> },
       { path: "/shop/products/displayproduct/:id/", element: <DisplayProduct/> },
